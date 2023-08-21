@@ -19,7 +19,7 @@ first things first , if you are someone who like to solve things on your own lik
 First of all lets see what kind of files we are working with, i used the `file` command to identify it.
 
 ```terminal
-***root@caretaker:$*** file firmware.bin 
+root@caretaker:$ file firmware.bin 
 
 firmware.bin: Linux kernel ARM boot executable zImage (big-endian)
 ```
@@ -28,7 +28,7 @@ and it's looks like a linux kernel , hmm let's use binwalk to see what is this f
 
 
 ```terminal
-***root@caretaker:$*** binwalk firmware.bin 
+root@caretaker:$ binwalk firmware.bin 
 
 DECIMAL       HEXADECIMAL     DESCRIPTION
 --------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ Extracting the file system can be very help full where you can find some hardcod
 so now lets use the `dd` command to extract the file system
 
 ```terminal
-***root@caretaker:$*** dd if=firmware.bin of=rootfs bs=1 skip=538952
+root@caretaker:$ dd if=firmware.bin of=rootfs bs=1 skip=538952
 ```
 
 lets explain the command parts and options, 
@@ -62,13 +62,13 @@ lets explain the command parts and options,
 so after running `dd` we got this file `rootfs` if we run `file` command on the file we will get this.
 
 ```terminal
-***root@caretaker:$*** file rootfs
+root@caretaker:$ file rootfs
 rootfs: Squashfs filesystem, little endian, version 4.0, xz compressed, 2068458 bytes, 995 inodes, blocksize: 262144 bytes, created: Thu Mar 11 03:18:10 2021
 ```
 now we can use the `unsquashfs` tool to extract the file system.
 
 ```terminal
-***root@caretaker:$*** unsquashfs rootfs
+root@caretaker:$ unsquashfs rootfs
 ```
 you will got a directory called `squashfs-root`
 
@@ -77,7 +77,7 @@ you will got a directory called `squashfs-root`
 After entering the squashfs-root you will notice its a linux file system
 
 ```terminal
-***root@caretaker:$*** ls squashfs-root
+root@caretaker:$ ls squashfs-root
 bin  dev  etc  lib  mnt  overlay  proc  rom  root  sbin  sys  tmp  usr  var  www
 ```
 
@@ -100,13 +100,13 @@ if [ "$TELNETD" = "true" ]; then
 fi
 ```
 
-you can recoginze that the file using the `login` command to login with the user `Device_Admin` so we got the user , its using the variable `$sign` as a password lets see what it's value
+you can recoginze that the file using the telnet connection to run `login` command to login with the user `Device_Admin` so we got the user , its using the variable `$sign` as a password lets see what it's value
 `sign=\`cat /etc/config/sign\``
 so we just need to `cat /etc/config/sign` to find the password, and we did. `qS6-X/n]u>fVfAt!` we found the password , so lets connect to the machine and see if this will work.
 
 ## Conclusion
 ```terminal
-***root@caretaker:$*** nc IP PORT
+root@caretaker:$ nc IP PORT
 hwtheneedle-1226574-949687cbc-hlmmm login: Device_Admin
 Password: qS6-X/n]u>fVfAt!
 
