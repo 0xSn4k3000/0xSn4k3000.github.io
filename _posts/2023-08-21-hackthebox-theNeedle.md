@@ -2,7 +2,7 @@
 title: HTB - The Needle
 date: 2023-08-21 01:22:15 +0200
 categories: [Hardware & IoT]
-tags: [firmware,squashfs,binwalk]     # TAG names should always be lowercase
+tags: [firmware,squashfs,binwalk]
 author: 1
 ---
 
