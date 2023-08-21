@@ -92,9 +92,9 @@ comments:
   # Giscus options › https://giscus.app
   giscus:
     repo: 0xSn4k3000/0xSn4k3000.github.io
-    repo_id: 94732095
+    repo_id: R_kgDOKJbXPA
     category: Comments
-    category_id: 1
+    category_id: DIC_kwDOKJbXPM4CYvS6
     mapping: # optional, default to 'pathname'
     input_position: # optional, default to 'bottom'
     lang: # optional, default to the value of `site.lang`
