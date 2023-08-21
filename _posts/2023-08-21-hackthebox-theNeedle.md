@@ -18,7 +18,7 @@ first things first , if you are someone who like to solve things on your own lik
 ## Solution
 First of all lets see what kind of files we are working with, i used the `file` command to identify it.
 ```terminal
-<span style="color:red;">root@caretaker</span>:$ file firmware.bin 
+***root@caretaker:$*** file firmware.bin 
 
 firmware.bin: Linux kernel ARM boot executable zImage (big-endian)
 ```
