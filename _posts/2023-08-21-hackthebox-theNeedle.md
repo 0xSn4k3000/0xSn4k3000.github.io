@@ -38,7 +38,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 538952        0x83948         Squashfs filesystem, little endian, version 4.0, compression:xz, size: 2068458 bytes, 995 inodes, blocksize: 262144 bytes, created: 2021-03-11 03:18:10
 ```
 
-like you can see there is a file system in the end of the file, a `squashfs` file system , ![squash](https://en.wikipedia.org/wiki/SquashFS) file system is widly used in firmwares of iot devices. 
+like you can see there is a file system in the end of the file, a `squashfs` file system , [squash](https://en.wikipedia.org/wiki/SquashFS) file system is widly used in firmwares of iot devices. 
 
 ## Extracting the file system
 
@@ -114,4 +114,4 @@ hwtheneedle-1226574-949687cbc-hlmmm:~$
 ```
 
 so after we using the credentials we found we were able to login to the device.
-thank you for reading and hope you learned something new , feel free to contact me for any ideas or feedbacks on ![twitter](https://twitter.com/0xSn4k3000) or by commenting down below.
+thank you for reading and hope you learned something new , feel free to contact me for any ideas or feedbacks on [twitter](https://twitter.com/0xSn4k3000) or by commenting down below.
