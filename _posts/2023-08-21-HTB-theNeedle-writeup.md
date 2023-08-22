@@ -1,12 +1,12 @@
 ---
-title: HTB - The Needle
+title: HTB - TheNeedle writeup
 date: 2023-08-21 01:22:15 +0200
 categories: [Hardware & IoT]
 tags: [firmware,squashfs,binwalk]
 author: 1
 ---
 
-Hello friends , in this post i will solve `The Needle` challenge from hackthebox , its a very easy challenge, so lets do it.
+Hello friends , in this post i will solve `The Needle` challenge from hackthebox , its a very easy hardware challenge, so lets do it.
 
 ## Hints
 first things first , if you are someone who like to solve things on your own like me , but you are stuck then here some hints that can help. ^_^
