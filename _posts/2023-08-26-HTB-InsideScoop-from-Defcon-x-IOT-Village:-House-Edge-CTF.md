@@ -2,7 +2,7 @@
 title: HTB - Inside Scoop from Defcon-x-IOT-Village:-House-Edge-CTF writeup
 date: 2023-08-26 02:05:00 +0200
 categories: [Hardware & IoT]
-tags: [upnp,burpsuite,wireshark]
+tags: [upnp,burpsuite,wireshark,cctv]
 author: 1
 img_path: /assets/posts_imgs/2023-08-26-HTB-InsideScoop/
 ---
