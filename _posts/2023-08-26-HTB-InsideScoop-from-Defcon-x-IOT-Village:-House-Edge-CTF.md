@@ -1,4 +1,4 @@
----
+غ---
 title: HTB - Inside Scoop from Defcon-x-IOT-Village:-House-Edge-CTF writeup
 date: 2023-08-26 02:05:00 +0200
 categories: [Hardware & IoT]
@@ -52,9 +52,9 @@ The other thing was this [`SSDP`](https://en.wikipedia.org/wiki/Simple_Service_D
 > UPnP is a set of networking protocols that permits networked devices, such as personal computers, printers, Internet gateways, Wi-Fi access points and mobile devices to seamlessly discover each other's presence on the network and establish functional network services
 
 so this packet contains a M-SEARCH request to search for devices on the network,
-now by opening the response backet under the packet we are in and follow it we can read the respoonse
+now by opening the response packet under the packet we are in and follow it we can read the respoonse
 
-![ssdp_res.png](ssdp.png)
+![ssdp_res.png](ssdp_res.png)
 
 Ok here we found our device and it's ip inside the local network.
 It's time to run the instance and see what we will got.
