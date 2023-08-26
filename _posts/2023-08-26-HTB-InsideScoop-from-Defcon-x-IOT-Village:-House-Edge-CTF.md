@@ -26,3 +26,6 @@ a [`pcap`](https://en.wikipedia.org/wiki/Pcap) file and an image , so by opening
 
 ![network leyout](network_layout.png)
 _network layout_
+
+so from this layout you can imagine the look of the network , the Camera System is inside the LAN with a router in the edge of the local network connecting to Internet. good lets open the pcap file and see what's inside.
+
