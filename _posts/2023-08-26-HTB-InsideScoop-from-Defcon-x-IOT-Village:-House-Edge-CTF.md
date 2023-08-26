@@ -27,5 +27,22 @@ a [`pcap`](https://en.wikipedia.org/wiki/Pcap) file and an image , so by opening
 ![network leyout](network_layout.png)
 _network layout_
 
-so from this layout you can imagine the look of the network , the Camera System is inside the LAN with a router in the edge of the local network connecting to Internet. good lets open the pcap file and see what's inside.
+So from this layout you can imagine the look of the network , the Camera System is inside the LAN with a router in the edge of the local network connecting to Internet. good lets open the pcap file and see what's inside.
+
+![login req](login_req.png)
+
+The first thing that caught my eye was this login attempt , i followed the http stream and this was the result
+
+![http request](our_app.png) 
+
+From this HTTP request we can know the local ip address of our app and the port it's serving on,
+also we can know it's running Express server.
+
+After finshing up from the HTTP request i came back to the rest of the pcap file.
+
+![ssdp](ssdp.png)
+
+The other thing was this [`SSDP`](https://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol) packet , SSDP is the basis of the discovery protocol of [`Universal Plug and Play`](https://en.wikipedia.org/wiki/Universal_Plug_and_Play) (UPnP).
+
+> UPnP is a set of networking protocols that permits networked devices, such as personal computers, printers, Internet gateways, Wi-Fi access points and mobile devices to seamlessly discover each other's presence on the network and establish functional network services
 
