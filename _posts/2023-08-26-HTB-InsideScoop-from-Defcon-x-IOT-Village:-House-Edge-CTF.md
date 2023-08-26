@@ -5,9 +5,6 @@ categories: [Hardware & IoT]
 tags: [upnp,burpsuite,wireshark]
 author: 1
 img_path: /assets/posts_imgs/2023-08-26-HTB-InsideScoop/
-image:
-  path: /assets/posts_imgs/2023-08-26-HTB-InsideScoop/banner.webp
-  alt: CCTV
 ---
 
 Hello friends , in this post i will solve `Inside Scoop` challenge from IoTVillage and hackthebox , its an easy hardware challenge, so lets do it
