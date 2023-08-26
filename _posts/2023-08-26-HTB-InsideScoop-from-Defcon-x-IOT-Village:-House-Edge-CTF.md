@@ -1,4 +1,4 @@
-غ---
+---
 title: HTB - Inside Scoop from Defcon-x-IOT-Village:-House-Edge-CTF writeup
 date: 2023-08-26 02:05:00 +0200
 categories: [Hardware & IoT]
