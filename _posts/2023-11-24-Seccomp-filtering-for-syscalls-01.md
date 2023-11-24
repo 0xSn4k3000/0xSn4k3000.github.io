@@ -266,3 +266,8 @@ It's blocking a lot of syscalls but we will stick in the important one here , it
 
 So i think we are go far enough for this one, remember to always understand the thing then hack the thing, so you can use your imagination to find your way in, for now.
 Until the next time...
+
+## Resources:
+https://spinscale.de/posts/2020-10-27-seccomp-making-applications-more-secure.html
+https://blog.pentesteracademy.com/linux-security-understand-and-practice-seccomp-syscall-filter-37004bc4b53d
+https://n132.github.io/2022/07/03/Guide-of-Seccomp-in-CTF.html
