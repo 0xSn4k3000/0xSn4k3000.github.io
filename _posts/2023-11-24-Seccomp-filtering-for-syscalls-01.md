@@ -73,9 +73,7 @@ An example of seccomp with bpf.
 #include <seccomp.h>
 
 int main() {
-    scmp_filter_ctx ctx = seccomp_init(SECCOMP_RET_KILL);
-
-    seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(write), 0); // Allow the write syscall
+    scmp_filter_ctx ctx = seccomp_init(SECCOMP_RET_ALLOW);
 
     seccomp_rule_add(ctx, SCMP_ACT_ERRNO(EBADF), SCMP_SYS(getpid), 0);
 
@@ -89,7 +87,7 @@ int main() {
 }
 ```
 
-So let's explain the code first. The `seccomp_init` function is used to initialize the context and prepare it for use. It takes a parameter `def_action` that sets the default action when a blocked syscall been called. In this example it's `SECCOMP_RET_KILL` so clearly it's will kill the program.
+So let's explain the code first. The `seccomp_init` function is used to initialize the context and prepare it for use. It takes a parameter `def_action` that sets the default action when a syscall been called. In this example it's `SECCOMP_RET_ALLOW` so clearly it's will ALLOW any syscall in case there is no rule for it.
 
 After that a `seccomp_rule_add` is called , its used to add rules for our context before actually load it. First you give it the filter context.
 Then the action , in our case i set it to `SCMP_ACT_ERRNO(EBADF)` it's will return an error and the error is EBADF -> `Bad system call`.
@@ -110,9 +108,8 @@ In some cases developer will need to block a syscall when a specific value is in
 #include <errno.h>
 #include <seccomp.h>
 
-
 int main() {
-    scmp_filter_ctx ctx = seccomp_init(SECCOMP_RET_KILL);
+    scmp_filter_ctx ctx = seccomp_init(SECCOMP_RET_ALLOW);
 
     seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(write), 1,
         SCMP_A0(SCMP_CMP_EQ, 1)
@@ -138,23 +135,26 @@ I will explain the new things only, one thing is the `SCMP_A0` this function is 
     cmp A, 0x1
     jeq ALLOW
 ```
-In the above code the A is the value of the argument.
+
+In the above code the A is the value of the argument, it's compare it with 0x1 and if they equal it's jumps to allow.
 Now compiling the code above and run it.
+
 ```terminal
 $ ./seccomp_bpf.c
 Allowed write to stdout
 Bad system call
 ```
+
 You will notice that it's will allow the first write only because it's write to the `stdout`
 > Note:
 > stdin  -> 0
 > stdout -> 1
 > stderr -> 2
 
-## Seccomp in pwner perspective:
+## Seccomp in a pwner perspective:
 
 By now we know a little about seccomp from the developer's point of view, but when it's coming to the pwner the game start changing.
-Understanding the rules from the source code can be an easy task , but when it's comes to disassembly or the decompiler this will be converted to a nightmare , specially when the developer set a complex sets of rules. And that why tools like [seccomp-tools](https://github.com/david942j/seccomp-tools) exist. seccomp-tools provide a lot of functions to test and specially the `dump` option
+Understanding the rules from the source code can be an easy task , but when it comes to the disassembly or the decompiler this will be a nightmare , specially when the developer set a complex sets of rules. And that why tools like [seccomp-tools](https://github.com/david942j/seccomp-tools) exist. seccomp-tools provide a lot of functions to test and specially the `dump` option
 
 ```terminal
 $ seccomp-tools dump ./seccomp_bpf
@@ -181,7 +181,7 @@ Next i will assume that you have control over the flow of the program, for demon
 ## Some tricks to bypass seccomp rules
 
 Till here seccomp looks secure and it's will make our life harder, but...
-Seccomp depends on rules , a rules that human write, and humans make mistakes.
+Seccomp depends on rules , a rules that human write, and humans make mistakes:) .
 So as far as the developer not fully aware of what he is doing you will find a way to bypass it. You just need to be smarter.
 
 ### 1. Searching for alternative syscalls:
@@ -196,23 +196,13 @@ So i wrote this simple c program, it's first init seccomp with this simple rule
 scmp_filter_ctx ctx = seccomp_init(SECCOMP_RET_ALLOW);
 seccomp_rule_add(ctx, SCMP_ACT_ERRNO(EPERM), SCMP_SYS(execve), 0);
 ```
-After that reading a shellcode from user it's run this shellcode, fair enough.
-So simply we wrote a simple shellcode that will call `execveat` assume that we have a leak, but don't frustrated, your shellcode will be running on the nowhere , it's still running on the program, you will find some leaks on the registers etc...
 
-```assembly
-    mov rax, 0x142  ; execveat system call number
-    mov rdi, -100   ; special value for current working directory
-    mov rsi, FILENAME_ADDR ; here you will set the /bin/sh address if you got it from libc or found your way to do it ;)
-    mov rdx, FILENAME_ADDR   ; 
-    mov r10, 0x0    ; environment vars
-    xor r8, r8      ; flags
-    syscall
-```
+After that reading a shellcode from user and run it, fair enough.
+We simply call `execveat` assume that we have a leak, but don't be frustrated, your shellcode will not be running on the nowhere , it's still running on the program, you will find some leaks on the registers etc...
 
 ### 2. Go old:
 
 In some cases the filter will not check for the architecture or the syscall number for the x32, every case has it's own solution
-
 For example , this rule check for the arch.
 
 ```terminal
@@ -224,6 +214,7 @@ For example , this rule check for the arch.
 
 If the rules don't check for the arch as the rule above then you can jump to x86 mode with `retf` and call x86 syscalls to bypass the filter.
 
+**Case 2:**
 ```terminal
  line  CODE  JT   JF      K
 =================================
@@ -233,7 +224,7 @@ If the rules don't check for the arch as the rule above then you can jump to x86
 ```
 
 If the rules don't check if the syscall number is larger than 0x40000000 like above then we could use x32 ABI to bypass the filter.
-For example we can call 0x40000000 + sys_number_of_syscall (e.g 0x4000003b for execve) 
+So we can call 0x40000000 + sys_number_of_syscall (e.g 0x4000003b for execve) 
 
 ### 3. Change argument values in memory:
 
@@ -260,7 +251,7 @@ In some cases you will find a rules that allow `execve` for example, but it's al
  0042: 0x06 0x00 0x00 0x00000000  return KILL
 ```
 
-It's blocking a lot of syscalls but we will stick in the important one here , it's allow execve if and only if it's first argument is ALLOWED_EXE and it's value was /bin/id , but... *seccomp cant check values in memory* it's only check for the address of the first value, if it's the address of ALLOWED_EXE then it's will run it, so using some syscall i changed the memory page where ALLOWED_EXE variable is to RW and write /bin/sh to the ALLOWED_EXE , and i was able to get a shell :).
+It's blocking a lot of syscalls but we will stick in the important one here , it's allow execve if and only if it's first argument is ALLOWED_EXE and it's value was /bin/id , but... **seccomp cant check values in memory** it's only check for the address of the first value, if it's the address of ALLOWED_EXE then it's will run it, so using some allowed syscalls i changed the memory page where ALLOWED_EXE variable exist to RW (READ, WRITE Permissions) and wrote /bin/sh to the ALLOWED_EXE , and i was able to get a shell :).
 
 ## Not a real conclusion ;) :
 
