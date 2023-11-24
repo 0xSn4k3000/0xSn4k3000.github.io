@@ -6,7 +6,7 @@ tags: [seccomp,syscall,sandbox]
 author: 1
 ---
 
-Hello friends, in this article i am going to introduce `seccomp` and how it can be used to make your exploit development more harder, will give some examples and some tricks to bypass it, i hope you will enjoy it, but before we diving into it, let's first explain what `seccomp` is and how it can be used
+Hello friends, in this article i am going to introduce `seccomp` and how it can be used to make your exploit development more harder, will give some examples and some tricks to bypass it, i hope you will enjoy it, but before we start diving let's first explain what `seccomp` is and how it can be used
 
 ## Seccomp (SECure COMPuting):
 
