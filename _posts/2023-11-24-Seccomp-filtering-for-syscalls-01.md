@@ -2,7 +2,7 @@
 title: The Seccomp for syscalls filtering Part 1
 date: 2023-11-24 00:00:00 +0200
 categories: [Binary Exploitation]
-tags: [seccomp,syscall,sandbox]
+tags: [seccomp,syscall,sandbox,shellcode]
 author: 1
 ---
 
